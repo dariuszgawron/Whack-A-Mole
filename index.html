@@ -30,51 +30,68 @@
             </h1>
         </div>
         <div class="content">
-            <div class="grid">
-                
+            <div class="grid" name="mainMenu">
+                <div class="grid__col grid__col--12">
+                    <button class="btn btn--big" name="startNewGameBtn">
+                        <i class="btn__icon fas fa-play"></i>
+                        <span class="btn__text">New game</span>
+                    </button>
+                </div>
+                <div class="grid__col grid__col--12">
+                    <button class="btn btn--big" name="showRecordsBtn">
+                        <i class="btn__icon fas fa-list-ol"></i>
+                        <span class="btn__text">Records</span>
+                    </button>
+                </div>
+                <div class="grid__col grid__col--12">
+                    <button class="btn btn--big" name="showSettingsBtn">
+                        <i class="btn__icon fas fa-cog"></i>
+                        <span class="btn__text">Settings</span>
+                    </button>
+                </div>
             </div>
-            <div class="grid" name="gameBoard">
-                <div class="grid__col grid__col--3" name="hole1">
+            <div class="grid grid--area grid--hidden" name="gameBoard">
+                <div class="grid__col grid__col--image grid__col--3" name="hole1">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole2">
+                <div class="grid__col grid__col--image grid__col--3" name="hole2">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole3">
+                <div class="grid__col grid__col--image grid__col--3" name="hole3">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole4">
+                <div class="grid__col grid__col--image grid__col--3" name="hole4">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole5">
+                <div class="grid__col grid__col--image grid__col--3" name="hole5">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole6">
+                <div class="grid__col grid__col--image grid__col--3" name="hole6">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole7">
+                <div class="grid__col grid__col--image grid__col--3" name="hole7">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole8">
+                <div class="grid__col grid__col--image grid__col--3" name="hole8">
                     <div class="grid__item">
 
                     </div>
                 </div>
-                <div class="grid__col grid__col--3" name="hole9">
+                <div class="grid__col grid__col--image grid__col--3" name="hole9">
                     <div class="grid__item">
 
                     </div>
@@ -82,6 +99,8 @@
             </div>
         </div>
     </div>
+
+    <script src="./js/script.js"></script>
 </body>
 
 </html>

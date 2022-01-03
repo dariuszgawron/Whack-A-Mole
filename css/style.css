@@ -34,20 +34,28 @@ body {
 }
 
 .grid {
-    width: 600px;
-    height: 500px;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
 }
 
+.grid--area {
+    width: 600px;
+    height: 500px;
+}
+
+.grid--hidden {
+    display: none;
+}
+
 .grid__col {
     display: flex;
     position: relative;
+    justify-content: center;
     overflow-y: hidden;
 }
 
-.grid__col:after {
+.grid__col--image:after {
     position: absolute;
     width: 100%;
     height: 70px;
@@ -64,6 +72,10 @@ body {
     flex-basis: 33.33%;
 }
 
+.grid__col--12 {
+    flex-basis: 100%;
+}
+
 .grid__item {
     position: absolute;
     width: 100%;
@@ -73,4 +85,30 @@ body {
     background-position: bottom;
     background-repeat: no-repeat;
     z-index: 1;
+}
+
+.btn {
+    margin: 10px auto;
+    padding: 5px;
+    text-align: center;
+    background-color: transparent;
+    border: 2px solid gray;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 1.2rem;  
+    cursor: pointer;
+}
+
+.btn:hover {
+    font-size: 1.4rem;
+    box-shadow: 0 0 13px rgb(247, 118, 12);
+}
+
+.btn--big {
+    width: 250px;
+    height: 75px;
+}
+
+.btn__icon {
+    margin-right: 10px;
 }
