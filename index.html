@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
         integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
+
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -20,12 +20,12 @@
     <div class="main">
         <div class="header">
             <h1 class="header__title">
-                <button class="header__btn" name="backBtn">
-                    <i class="fas fa-angle-left"></i>
+                <button class="header__btn header__btn--hidden" name="backBtn">
+                    <i class="header-btn__icon fas fa-angle-left"></i>
                 </button>
-                    Whack-a-mole!
-                <span name="result">
-                    120
+                Whack-a-mole!
+                <span class="header__box header__box--hidden" name="score">
+                    0
                 </span>
             </h1>
         </div>
@@ -50,6 +50,58 @@
                     </button>
                 </div>
             </div>
+
+            <div class="grid grid--border grid--hidden" name="settings">
+                <form class="form">
+                    <table class="table">
+                        <tr>
+                            <th class="table__th" colspan="2">
+                                <h2 class="grid__header">
+                                    Settings
+                                </h2>
+                            </th>
+                        </tr>
+                        <tr class="table__tr">
+                            <td class="table__td table__td--header">Level: </td>
+                            <td class="table__td">
+                                <input type="radio" id="contactChoice1" name="contact" value="email" checked>
+                                <label for="contactChoice1">Easy</label>
+
+                                <input type="radio" id="contactChoice2" name="contact" value="phone">
+                                <label for="contactChoice2">Medium</label>
+
+                                <input type="radio" id="contactChoice3" name="contact" value="mail">
+                                <label for="contactChoice3">Hard</label>
+                            </td>
+                        </tr>
+                        <tr class="table__tr">
+                            <td class="table__td table__td--header">Duration: </td>
+                            <td class="table__td">
+                                <input type="range" name="durationInput" id="durationInput" value="15" min="5" max="60"
+                                    step="5" oninput="durationOutput.value = durationInput.value">
+                                <output name="durationOutput" id="durationOutput">15</output>
+                            </td>
+                        </tr>
+                        <tr class="table__tr">
+                            <td class="table__td table__td--header">Sound: </td>
+                            <td class="table__td">
+                                <label class="switch">
+                                    <input class="switch__checkbox" type="checkbox">
+                                    <span class="switch__slider switch__slider--round"></span>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr class="table__tr">
+                            <td class="table__td table__td--center" colspan=2>
+                                <button class="form-btn form-btn--success">
+                                    <span class="form-btn__text">Save</span>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
             <div class="grid grid--area grid--hidden" name="gameBoard">
                 <div class="grid__col grid__col--image grid__col--3" name="hole1">
                     <div class="grid__item grid__item--hidden">
@@ -99,6 +151,8 @@
             </div>
         </div>
     </div>
+
+    <audio data-key="bang" src="./pistol_riccochet-7046.mp3"></audio>
 
     <script src="./js/script.js"></script>
 </body>

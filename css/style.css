@@ -48,6 +48,26 @@ body {
     box-shadow: 0 0 11px rgb(51, 105, 223);
 }
 
+.header__btn--hidden {
+    display: none;
+}
+
+.header__box {
+    width: 60px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    background-color: rgba(207, 207, 207, 0.9);
+    color: rgb(51, 105, 223);
+    border-radius: 5px;
+}
+
+.header__box--hidden {
+    display: none;
+}
+
 .content {
     display: flex;
     justify-content: center;
@@ -57,11 +77,17 @@ body {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    padding: 10px;/*awaryjnie usunąć*/
 }
 
 .grid--area {
     width: 600px;
     height: 500px;
+}
+
+.grid--border {
+    border: 2px solid rgb(136, 136, 136);
+    border-radius: 10px;
 }
 
 .grid--hidden {
@@ -110,7 +136,8 @@ body {
     background-position: bottom;
     background-repeat: no-repeat;
     z-index: 1;
-    transition: all .5s
+    transition: all .5s;
+    cursor: pointer;
 }
 
 .grid__item--hidden {
@@ -141,4 +168,100 @@ body {
 
 .btn__icon {
     margin-right: 10px;
+}
+
+
+.table {
+    font-size: 1.2rem;
+}
+
+.table__th {
+    padding-bottom: 15px;
+}
+
+.table__tr {
+    padding: 5px;
+}
+
+.table__td {
+    padding: 5px 10px;
+    vertical-align: middle;
+}
+
+.table__td--header {
+    font-weight: bold;
+}
+
+.table__td--center {
+    text-align: center;
+}
+
+.form-btn {
+    margin: 10px auto;
+    padding: 5px;
+    text-align: center;
+    background-color: transparent;
+    border: 2px solid gray;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 1.2rem;  
+    cursor: pointer;
+}
+
+.form-btn__text {
+    
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 17px;
+}
+
+.switch .switch__checkbox {
+    width: 0;
+    height: 0;
+}
+
+.switch__slider {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(182, 182, 182);
+    cursor: pointer;
+    -webkit-transition: .6s;
+    transition: .6s;
+}
+
+.switch__slider:before {
+    position: absolute;
+    content: '';
+    width: 13px;
+    height: 13px;
+    left: 2px;
+    bottom: 2px;
+    background-color: rgb(255, 255, 255);
+    -webkit-transition: .6s;
+    transition: .6s;
+}
+
+.switch__checkbox:checked + .switch__slider {
+    background-color: rgb(51, 105, 223);
+}
+
+.switch__checkbox:checked + .switch__slider:before {
+    -webkit-transform: translateX(13px);
+    -moz-transform: translateX(13px);
+    transform: translateX(13px);
+}
+
+.switch__slider--round {
+    border-radius: 17px;
+}
+
+.switch__slider--round:before {
+    border-radius: 50%;
 }
