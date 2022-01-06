@@ -32,6 +32,12 @@
         <div class="content">
             <div class="grid" name="mainMenu">
                 <div class="grid__col grid__col--12">
+                    <input type="text" class="grid__input" name="userName" placeholder="Player name">
+                </div>
+                <div class="grid__col grid__col--12">
+                    <hr class="grid__separator">
+                </div>
+                <div class="grid__col grid__col--12">
                     <button class="btn btn--big" name="startNewGameBtn">
                         <i class="btn__icon fas fa-play"></i>
                         <span class="btn__text">New game</span>
@@ -52,7 +58,7 @@
             </div>
 
             <div class="grid grid--border grid--hidden" name="settings">
-                <form class="form">
+                <form class="form" name="settingsForm">
                     <table class="table">
                         <tr>
                             <th class="table__th" colspan="2">
@@ -64,21 +70,21 @@
                         <tr class="table__tr">
                             <td class="table__td table__td--header">Level: </td>
                             <td class="table__td">
-                                <input type="radio" id="contactChoice1" name="contact" value="email" checked>
-                                <label for="contactChoice1">Easy</label>
+                                <input type="radio" data-key="0" id="levelEasy" name="levelRadio" value="easy" checked>
+                                <label for="levelEasy">Easy</label>
 
-                                <input type="radio" id="contactChoice2" name="contact" value="phone">
-                                <label for="contactChoice2">Medium</label>
+                                <input type="radio" data-key="1" id="levelMedium" name="levelRadio" value="medium">
+                                <label for="levelMedium">Medium</label>
 
-                                <input type="radio" id="contactChoice3" name="contact" value="mail">
-                                <label for="contactChoice3">Hard</label>
+                                <input type="radio" data-key="2" id="levelHard" name="levelRadio" value="hard">
+                                <label for="levelHard">Hard</label>
                             </td>
                         </tr>
                         <tr class="table__tr">
                             <td class="table__td table__td--header">Duration: </td>
                             <td class="table__td">
                                 <input type="range" name="durationInput" id="durationInput" value="15" min="5" max="60"
-                                    step="5" oninput="durationOutput.value = durationInput.value">
+                                    step="5">
                                 <output name="durationOutput" id="durationOutput">15</output>
                             </td>
                         </tr>
@@ -86,14 +92,14 @@
                             <td class="table__td table__td--header">Sound: </td>
                             <td class="table__td">
                                 <label class="switch">
-                                    <input class="switch__checkbox" type="checkbox">
+                                    <input class="switch__checkbox" name="soundSwitch" id="soundSwitch" type="checkbox">
                                     <span class="switch__slider switch__slider--round"></span>
                                 </label>
                             </td>
                         </tr>
                         <tr class="table__tr">
                             <td class="table__td table__td--center" colspan=2>
-                                <button class="form-btn form-btn--success">
+                                <button class="form-btn form-btn--success" name="saveSettings">
                                     <span class="form-btn__text">Save</span>
                                 </button>
                             </td>

@@ -1,6 +1,11 @@
 // localStorage 
-const userName = JSON.parse(localStorage.getItem('moleUserName')) || '';
-const scoreBoard = JSON.parse(localStorage.getItem('molePoints')) || [];
+let moleSettings = JSON.parse(localStorage.getItem('moleSettings')) || {
+    userName: '',
+    level: 'easy',
+    duration: '15',
+    sound: true
+};
+let scoreBoard = JSON.parse(localStorage.getItem('molePoints')) || [];
 
 // controls
 const scoreBox = document.querySelector('.header__box[name=score]');
@@ -13,6 +18,14 @@ const records = document.querySelector('.btn[name=showRecordsBtn]');
 const gameBoard = document.querySelector('.grid[name=gameBoard]');
 const mainMenu = document.querySelector('.grid[name=mainMenu]');
 const settings = document.querySelector('.grid[name=settings]');
+
+// settings screen
+const userName = document.querySelector('.grid__input[name=userName]');
+const gameLevel = document.querySelectorAll('input[name=levelRadio]');
+const gameDuration = document.querySelector('input[name=durationInput]');
+const gameSound = document.querySelector('input[name=soundSwitch]');
+const settingsForm = document.querySelector('.form[name=settingsForm]');
+const saveBtn = document.querySelector('button[name=saveSettings]');
 
 // game 
 const holes = document.querySelectorAll('.grid__col--image');
@@ -96,7 +109,35 @@ function showSettings() {
     backBtn.classList.remove('header__btn--hidden');
 }
 
+function getLocalStorageData() {
+    userName.value=moleSettings.userName;
+    gameLevel[moleSettings.level].checked = true;
+    gameDuration.value = moleSettings.duration;
+    updateOutputForRange();
+    gameSound.checked = moleSettings.sound;
+}
+
+function saveSettings() {
+    moleSettings = {
+        userName: userName.value.toUpperCase(),
+        level: document.querySelector('input[name=levelRadio]:checked').dataset.key,
+        duration: gameDuration.value,
+        sound: gameSound.checked
+    };
+    localStorage.setItem('moleSettings', JSON.stringify(moleSettings));
+}
+
+function updateOutputForRange() {
+    durationOutput.value = durationInput.value
+}
+
+getLocalStorageData();
+
 playBtn.addEventListener('click', startGame);
 settingsBtn.addEventListener('click', showSettings);
 backBtn.addEventListener('click', showMainMenu);
+userName.addEventListener('change', saveSettings);
+gameDuration.addEventListener('input', updateOutputForRange);
+settingsForm.addEventListener('submit', e => e.preventDefault());
+saveBtn.addEventListener('click', saveSettings);
 moles.forEach(mole => mole.addEventListener('click', hit));
