@@ -66,11 +66,11 @@ const startGame = () => {
     gameBoard.classList.remove('grid--hidden');
     backBtn.classList.remove('header__btn--hidden');
     scoreBox.classList.remove('header__box--hidden');
-    showMole(200, 1000);
+    showMole(100+(Math.pow(moleSettings.level,2)*100), 800);
     gameTimeout = setTimeout(() => {
         gameOver = true;
         saveResult(scoreBoard, userName, points);
-    }, 20000);
+    }, moleSettings.duration * 1000);
 }
 
 function hit(e) {
@@ -110,11 +110,12 @@ function showSettings() {
 }
 
 function getLocalStorageData() {
-    userName.value=moleSettings.userName;
+    userName.value = moleSettings.userName;
     gameLevel[moleSettings.level].checked = true;
     gameDuration.value = moleSettings.duration;
-    updateOutputForRange();
+    updateOutputForDuration();
     gameSound.checked = moleSettings.sound;
+    updateOutputForSound();
 }
 
 function saveSettings() {
@@ -127,8 +128,12 @@ function saveSettings() {
     localStorage.setItem('moleSettings', JSON.stringify(moleSettings));
 }
 
-function updateOutputForRange() {
-    durationOutput.value = durationInput.value
+function updateOutputForDuration() {
+    durationOutput.value = `${durationInput.value}s`;
+}
+
+function updateOutputForSound() {
+    soundOutput.value = soundSwitch.checked ? 'on' : 'off';
 }
 
 getLocalStorageData();
@@ -137,7 +142,8 @@ playBtn.addEventListener('click', startGame);
 settingsBtn.addEventListener('click', showSettings);
 backBtn.addEventListener('click', showMainMenu);
 userName.addEventListener('change', saveSettings);
-gameDuration.addEventListener('input', updateOutputForRange);
+gameDuration.addEventListener('input', updateOutputForDuration);
+gameSound.addEventListener('change', updateOutputForSound);
 settingsForm.addEventListener('submit', e => e.preventDefault());
 saveBtn.addEventListener('click', saveSettings);
 moles.forEach(mole => mole.addEventListener('click', hit));
