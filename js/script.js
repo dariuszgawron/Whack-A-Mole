@@ -7,12 +7,30 @@ let moleSettings = JSON.parse(localStorage.getItem('moleSettings')) || {
 };
 let scoreBoard = JSON.parse(localStorage.getItem('molePoints')) || [];
 
+const levels = {
+    '0': {
+        min: 600,
+        max: 800
+    },
+    '1': {
+        min: 400,
+        max: 600
+    },
+    '2': {
+        min: 200,
+        max: 400
+    }
+}
+
 // controls
 const scoreBox = document.querySelector('.header__box[name=score]');
 const backBtn = document.querySelector('.header__btn[name=backBtn]');
 const playBtn = document.querySelector('.btn[name=startNewGameBtn]');
 const settingsBtn = document.querySelector('.btn[name=showSettingsBtn]');
 const records = document.querySelector('.btn[name=showRecordsBtn]');
+const playAgainBtn = document.querySelector('.box-ask-btn[name=playAgainBtn]');
+const mainMenuBtn = document.querySelector('.box-ask-btn[name=mainMenuBtn]');
+const boxAskResult = document.querySelector('.box-ask__text[name=boxAskResult]');
 
 // screens
 const gameBoard = document.querySelector('.grid[name=gameBoard]');
@@ -33,6 +51,10 @@ const moles = document.querySelectorAll('.grid__item');
 
 // sounds
 const audio = document.querySelector(`audio[data-key='bang']`);
+
+// alerts
+const gameOverBox = document.querySelector('.box-ask[name=gameOver]');
+const savedDataBox = document.querySelector('.box-alert[name=savedData]');
 
 let gameOver;
 let points;
@@ -66,10 +88,14 @@ const startGame = () => {
     gameBoard.classList.remove('grid--hidden');
     backBtn.classList.remove('header__btn--hidden');
     scoreBox.classList.remove('header__box--hidden');
-    showMole(100+(Math.pow(moleSettings.level,2)*100), 800);
+    gameOverBox.classList.add('box-ask--hidden');
+    showMole(levels[moleSettings.level].min, levels[moleSettings.level].max);
     gameTimeout = setTimeout(() => {
         gameOver = true;
         saveResult(scoreBoard, userName, points);
+        //      Box with results
+        boxAskResult.textContent = `You scored ${points} points.`;
+        gameOverBox.classList.remove('box-ask--hidden');
     }, moleSettings.duration * 1000);
 }
 
@@ -77,8 +103,10 @@ function hit(e) {
     if (!e.isTrusted)
         return;
     this.classList.add('grid__item--hidden');
-    audio.currentTime = 0;
-    audio.play();
+    if(moleSettings.sound) {
+        audio.currentTime = 0;
+        audio.play();
+    }
     scoreBox.textContent = ++points;
     // console.log(points);
 }
@@ -91,6 +119,7 @@ function showMainMenu() {
     mainMenu.classList.remove('grid--hidden');
     backBtn.classList.add('header__btn--hidden');
     scoreBox.classList.add('header__box--hidden');
+    gameOverBox.classList.add('box-ask--hidden');
 }
 
 function saveResult(scoreBoard, userName, points) {
@@ -126,6 +155,10 @@ function saveSettings() {
         sound: gameSound.checked
     };
     localStorage.setItem('moleSettings', JSON.stringify(moleSettings));
+    savedDataBox.classList.remove('box-alert--hidden');
+    setTimeout(() => {
+        savedDataBox.classList.add('box-alert--hidden');
+    }, 1000);
 }
 
 function updateOutputForDuration() {
@@ -147,3 +180,6 @@ gameSound.addEventListener('change', updateOutputForSound);
 settingsForm.addEventListener('submit', e => e.preventDefault());
 saveBtn.addEventListener('click', saveSettings);
 moles.forEach(mole => mole.addEventListener('click', hit));
+
+playAgainBtn.addEventListener('click', startGame);
+mainMenuBtn.addEventListener('click', showMainMenu);
