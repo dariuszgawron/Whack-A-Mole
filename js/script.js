@@ -1,11 +1,11 @@
 // localStorage 
 let moleSettings = JSON.parse(localStorage.getItem('moleSettings')) || {
     userName: '',
-    level: 'easy',
+    level: '0',
     duration: '15',
     sound: true
 };
-let scoreBoard = JSON.parse(localStorage.getItem('molePoints')) || [];
+let gameResults = JSON.parse(localStorage.getItem('molePoints')) || [];
 
 const levels = {
     '0': {
@@ -27,15 +27,17 @@ const scoreBox = document.querySelector('.header__box[name=score]');
 const backBtn = document.querySelector('.header__btn[name=backBtn]');
 const playBtn = document.querySelector('.btn[name=startNewGameBtn]');
 const settingsBtn = document.querySelector('.btn[name=showSettingsBtn]');
-const records = document.querySelector('.btn[name=showRecordsBtn]');
+const recordsBtn = document.querySelector('.btn[name=showRecordsBtn]');
 const playAgainBtn = document.querySelector('.box-ask-btn[name=playAgainBtn]');
 const mainMenuBtn = document.querySelector('.box-ask-btn[name=mainMenuBtn]');
 const boxAskResult = document.querySelector('.box-ask__text[name=boxAskResult]');
+const showRecordsBtn = document.querySelector('.btn[name=showRecordsBtn]');
 
 // screens
 const gameBoard = document.querySelector('.grid[name=gameBoard]');
 const mainMenu = document.querySelector('.grid[name=mainMenu]');
 const settings = document.querySelector('.grid[name=settings]');
+const scoreBoard = document.querySelector('.grid[name=scoreBoard]');
 
 // settings screen
 const userName = document.querySelector('.grid__input[name=userName]');
@@ -44,6 +46,10 @@ const gameDuration = document.querySelector('input[name=durationInput]');
 const gameSound = document.querySelector('input[name=soundSwitch]');
 const settingsForm = document.querySelector('.form[name=settingsForm]');
 const saveBtn = document.querySelector('button[name=saveSettings]');
+
+// records screen
+const levelBtns = document.querySelectorAll('.tab-links__element');
+const levelScoreBoards = document.querySelectorAll('.tab-content__element'); 
 
 // game 
 const holes = document.querySelectorAll('.grid__col--image');
@@ -92,7 +98,7 @@ const startGame = () => {
     showMole(levels[moleSettings.level].min, levels[moleSettings.level].max);
     gameTimeout = setTimeout(() => {
         gameOver = true;
-        saveResult(scoreBoard, userName, points);
+        saveResult(gameResults, userName, points);
         //      Box with results
         boxAskResult.textContent = `You scored ${points} points.`;
         gameOverBox.classList.remove('box-ask--hidden');
@@ -120,16 +126,17 @@ function showMainMenu() {
     backBtn.classList.add('header__btn--hidden');
     scoreBox.classList.add('header__box--hidden');
     gameOverBox.classList.add('box-ask--hidden');
+    scoreBoard.classList.add('grid--hidden');
 }
 
-function saveResult(scoreBoard, userName, points) {
-    scoreBoard.push({
+function saveResult(gameResults, userName, points) {
+    gameResults.push({
         playerName: userName,
-        level: 'easy',
+        level: '0',
         points: points
     });
 
-    localStorage.setItem('molePoints', JSON.stringify(scoreBoard));
+    localStorage.setItem('molePoints', JSON.stringify(gameResults));
 }
 
 function showSettings() {
@@ -161,6 +168,12 @@ function saveSettings() {
     }, 1000);
 }
 
+function showGameBoard() {
+    mainMenu.classList.add('grid--hidden');
+    backBtn.classList.remove('header__btn--hidden');
+    scoreBoard.classList.remove('grid--hidden');
+}
+
 function updateOutputForDuration() {
     durationOutput.value = `${durationInput.value}s`;
 }
@@ -173,6 +186,8 @@ getLocalStorageData();
 
 playBtn.addEventListener('click', startGame);
 settingsBtn.addEventListener('click', showSettings);
+recordsBtn.addEventListener('click', showGameBoard);
+
 backBtn.addEventListener('click', showMainMenu);
 userName.addEventListener('change', saveSettings);
 gameDuration.addEventListener('input', updateOutputForDuration);

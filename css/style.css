@@ -75,10 +75,17 @@ body {
 
 .grid {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     padding: 10px;
     /*awaryjnie usunąć*/
+}
+
+/* .grid--row {
+    flex-direction: row;
+} */
+
+.grid--col {
+    flex-direction: column;
 }
 
 .grid--area {
@@ -93,6 +100,18 @@ body {
 
 .grid--hidden {
     display: none;
+}
+
+.grid__header {
+    padding: 10px 0;
+}
+
+.grid__header--center {
+    text-align: center;
+}
+
+.grid__title {
+    font-size: 1.6rem;
 }
 
 .grid__col {
@@ -380,4 +399,62 @@ body {
 
 .box-alert__text {
     font-size: 1.2rem;
+}
+
+
+.tab {
+
+}
+
+.tab-links {
+    display: flex;
+    justify-content: center;
+    border: none;
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.tab-links__element {
+    padding: 5px 10px;
+    font-size: 1rem;
+    background-color: transparent;
+    border: 1px solid rgb(182, 182, 182);
+    outline: none;
+    transition: all .4s;
+    cursor: pointer;
+}
+
+.tab-links__element:hover {
+    background-color: rgb(236, 236, 236);
+}
+
+.tab-links__element:active {
+    background-color: rgb(182, 182, 182);
+}
+
+.tab-content {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.tab-content__element {
+    display: block;
+    padding: 5px 10px;
+    -webkit-animation: fade 1s;
+    animation: fade 1s;
+}
+
+.tab-content__element--hidden {
+    display: none;
+}
+
+@-webkit-keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
 }

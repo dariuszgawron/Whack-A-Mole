@@ -109,6 +109,53 @@
                 </form>
             </div>
 
+            <div class="grid grid--col grid--border grid--hidden" name="scoreBoard">
+                <div class="grid__header grid__header--center">
+                    <h2 class="grid__title">
+                        Scoreboard
+                    </h2>
+                </div>
+                <div class="tab">
+                    <div class="tab-links">
+                        <button class="tab-links__element tab-links__element--active" name="levelEasyTab" data-id="0">Easy</button>
+                        <button class="tab-links__element" name="levelMediumTab" data-id="1">Medium</button>
+                        <button class="tab-links__element" name="levelHardTab" data-id="2">Hard</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-content__element" name="levelEasyTable">
+                            <table class="table">
+                                <tr>
+                                    <th>Lp.</th>
+                                    <th>Player</th>
+                                    <th>Time</th>
+                                    <th>Points</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tab-content__element tab-content__element--hidden" name="levelNormalTable">
+                            <table class="table">
+                                <tr>
+                                    <th>Lp.</th>
+                                    <th>Player</th>
+                                    <th>Time</th>
+                                    <th>Points</th>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tab-content__element tab-content__element--hidden" name="levelHardTable">
+                            <table class="table">
+                                <tr>
+                                    <th>Lp.</th>
+                                    <th>Player</th>
+                                    <th>Time</th>
+                                    <th>Points</th>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid--area grid--hidden" name="gameBoard">
                 <div class="grid__col grid__col--image grid__col--3" name="hole1">
                     <div class="grid__item grid__item--hidden">
@@ -198,6 +245,25 @@
     <audio data-key="bang" src="./pistol_riccochet-7046.mp3"></audio>
 
     <script src="./js/script.js"></script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-analytics.js";
+      
+        const firebaseConfig = {
+          apiKey: "AIzaSyA62OllViC1CuDxwrYPUJckuVN8_ZcsKa0",
+          authDomain: "whack-a-mole-6e7fb.firebaseapp.com",
+          projectId: "whack-a-mole-6e7fb",
+          storageBucket: "whack-a-mole-6e7fb.appspot.com",
+          messagingSenderId: "1061339938025",
+          appId: "1:1061339938025:web:0fc7f68f803e119befc478",
+          measurementId: "G-Z553MVVK3D"
+        };
+      
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+      </script>
 </body>
 
 </html>
