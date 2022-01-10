@@ -216,7 +216,8 @@ body {
 }
 
 .table__th {
-    padding-bottom: 15px;
+    padding: 5px 10px;
+    /* padding-bottom: 15px; */
 }
 
 .table__tr {
@@ -415,6 +416,8 @@ body {
 }
 
 .tab-links__element {
+    max-height: 50vh;
+    overflow: auto;
     padding: 5px 10px;
     font-size: 1rem;
     background-color: transparent;
@@ -428,7 +431,7 @@ body {
     background-color: rgb(236, 236, 236);
 }
 
-.tab-links__element:active {
+.tab-links__element--active {
     background-color: rgb(182, 182, 182);
 }
 

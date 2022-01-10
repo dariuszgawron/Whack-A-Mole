@@ -49,7 +49,10 @@ const saveBtn = document.querySelector('button[name=saveSettings]');
 
 // records screen
 const levelBtns = document.querySelectorAll('.tab-links__element');
-const levelScoreBoards = document.querySelectorAll('.tab-content__element'); 
+const levelScoreBoards = document.querySelectorAll('.tab-content__element');
+const levelEasyTable = document.querySelector('.tab-content__element[name=levelEasyTable]');
+const levelNormalTable = document.querySelector('.tab-content__element[name=levelNormalTable]');
+const levelHardTable = document.querySelector('.tab-content__element[name=levelHardTable]');
 
 // game 
 const holes = document.querySelectorAll('.grid__col--image');
@@ -98,7 +101,7 @@ const startGame = () => {
     showMole(levels[moleSettings.level].min, levels[moleSettings.level].max);
     gameTimeout = setTimeout(() => {
         gameOver = true;
-        saveResult(gameResults, userName, points);
+        saveResult(gameResults, moleSettings.userName, moleSettings.level, moleSettings.duration, points);
         //      Box with results
         boxAskResult.textContent = `You scored ${points} points.`;
         gameOverBox.classList.remove('box-ask--hidden');
@@ -109,7 +112,7 @@ function hit(e) {
     if (!e.isTrusted)
         return;
     this.classList.add('grid__item--hidden');
-    if(moleSettings.sound) {
+    if (moleSettings.sound) {
         audio.currentTime = 0;
         audio.play();
     }
@@ -129,12 +132,18 @@ function showMainMenu() {
     scoreBoard.classList.add('grid--hidden');
 }
 
-function saveResult(gameResults, userName, points) {
+function saveResult(gameResults, userName, level, duration, points) {
     gameResults.push({
         playerName: userName,
-        level: '0',
-        points: points
+        level: level,
+        duration: duration,
+        points: points,
+        rating: (100 / duration) * points
     });
+    const easyResults = filterResults(gameResults, '0', 'rating', 100);
+    const mediumResults = filterResults(gameResults, '1', 'rating', 100);
+    const hardResults = filterResults(gameResults, '2', 'rating', 100);
+    gameResults = easyResults.concat(mediumResults, hardResults);
 
     localStorage.setItem('molePoints', JSON.stringify(gameResults));
 }
@@ -169,9 +178,57 @@ function saveSettings() {
 }
 
 function showGameBoard() {
+    updateTableContents(levelEasyTable,gameResults,'0');
+    updateTableContents(levelNormalTable,gameResults,'1');
+    updateTableContents(levelHardTable,gameResults,'2');
+    
     mainMenu.classList.add('grid--hidden');
     backBtn.classList.remove('header__btn--hidden');
     scoreBoard.classList.remove('grid--hidden');
+}
+
+function updateTableContents(element, results, level) {
+    records = filterResults(results,level,'rating',100);
+    let lp=0;
+    element.innerHTML =     
+        '<table class="table">'+
+            '<tr class="table__tr">'+
+                '<th class="table__th">Lp.</th>'+
+                '<th class="table__th">Player name</th>'+
+                '<th class="table__th">Time</th>'+
+                '<th class="table__th">Points</th>'+
+            '</tr>';
+    records.forEach(record => {
+        element.innerHTML += 
+            `<tr class="table__tr">`+
+                `<td class="table__td">${++lp}</td>`+
+                `<td class="table__td">${record.playerName}</td>`+
+                `<td class="table__td">${record.duration}</td>`+
+                `<td class="table__td">${record.points}</td>`+
+            `</tr>`;
+    });
+    element.innerHTML += 
+        '</table>';
+}
+
+function openTab(e) {
+    const id = e.currentTarget.dataset.id;
+    levelScoreBoards.forEach((table, idx) => {
+        (id == idx) ?
+        table.classList.remove('tab-content__element--hidden'): table.classList.add('tab-content__element--hidden');
+    });
+    levelBtns.forEach((btn, idx) => {
+        (id == idx) ?
+        btn.classList.add('tab-links__element--active'): btn.classList.remove('tab-links__element--active');
+    });
+
+}
+
+function filterResults(records, level, sort, limit) {
+    return records
+        .filter(record => record.level === level)
+        .sort((a, b) => b[sort] - a[sort])
+        .slice(0, limit);
 }
 
 function updateOutputForDuration() {
@@ -198,3 +255,5 @@ moles.forEach(mole => mole.addEventListener('click', hit));
 
 playAgainBtn.addEventListener('click', startGame);
 mainMenuBtn.addEventListener('click', showMainMenu);
+
+levelBtns.forEach(levelBtn => levelBtn.addEventListener('click', e => openTab(e)));
