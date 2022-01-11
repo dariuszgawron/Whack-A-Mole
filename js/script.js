@@ -101,8 +101,9 @@ const startGame = () => {
     showMole(levels[moleSettings.level].min, levels[moleSettings.level].max);
     gameTimeout = setTimeout(() => {
         gameOver = true;
-        saveResult(gameResults, moleSettings.userName, moleSettings.level, moleSettings.duration, points);
-        //      Box with results
+        if (points > 0) {
+            saveResult(gameResults, moleSettings.userName, moleSettings.level, moleSettings.duration, points);
+        }
         boxAskResult.textContent = `You scored ${points} points.`;
         gameOverBox.classList.remove('box-ask--hidden');
     }, moleSettings.duration * 1000);
@@ -138,7 +139,7 @@ function saveResult(gameResults, userName, level, duration, points) {
         level: level,
         duration: duration,
         points: points,
-        rating: (100 / duration) * points
+        rating: Math.round((((100 / duration) * points) + Number.EPSILON) * 100) / 100
     });
     const easyResults = filterResults(gameResults, '0', 'rating', 100);
     const mediumResults = filterResults(gameResults, '1', 'rating', 100);
@@ -178,37 +179,51 @@ function saveSettings() {
 }
 
 function showGameBoard() {
-    updateTableContents(levelEasyTable,gameResults,'0');
-    updateTableContents(levelNormalTable,gameResults,'1');
-    updateTableContents(levelHardTable,gameResults,'2');
-    
+    updateTableContents(levelEasyTable, gameResults, '0');
+    updateTableContents(levelNormalTable, gameResults, '1');
+    updateTableContents(levelHardTable, gameResults, '2');
+
     mainMenu.classList.add('grid--hidden');
     backBtn.classList.remove('header__btn--hidden');
     scoreBoard.classList.remove('grid--hidden');
 }
 
 function updateTableContents(element, results, level) {
-    records = filterResults(results,level,'rating',100);
-    let lp=0;
-    element.innerHTML =     
-        '<table class="table">'+
-            '<tr class="table__tr">'+
-                '<th class="table__th">Lp.</th>'+
-                '<th class="table__th">Player name</th>'+
-                '<th class="table__th">Time</th>'+
-                '<th class="table__th">Points</th>'+
+    records = filterResults(results, level, 'rating', 100);
+    let lp = 0;
+    let table;
+    if (records.length > 0) {
+        table =
+            '<table class="table">' +
+            '<tr class="table__tr">' +
+            '<th class="table__th">Lp.</th>' +
+            '<th class="table__th">Player name</th>' +
+            '<th class="table__th">Time</th>' +
+            '<th class="table__th">Points</th>' +
+            '<th class="table__th">Rating</th>' +
             '</tr>';
-    records.forEach(record => {
-        element.innerHTML += 
-            `<tr class="table__tr">`+
-                `<td class="table__td">${++lp}</td>`+
-                `<td class="table__td">${record.playerName}</td>`+
-                `<td class="table__td">${record.duration}</td>`+
-                `<td class="table__td">${record.points}</td>`+
-            `</tr>`;
-    });
-    element.innerHTML += 
-        '</table>';
+        records.forEach(record => {
+            table +=
+                '<tr class="table__tr">' +
+                `<td class="table__td table__td--right">${++lp}</td>` +
+                `<td class="table__td">${record.playerName}</td>` +
+                `<td class="table__td table__td--right">${record.duration} s</td>` +
+                `<td class="table__td table__td--right">${record.points}</td>` +
+                `<td class="table__td table__td--right">${record.rating}</td>` +
+                '</tr>';
+        });
+        table +=
+            '</table>';
+    } else {
+        table =
+            '<table class="table">' +
+            '<tr class="table__tr">' +
+            '<td class="table__td table__td--center">No records!</td>' +
+            '</tr>' +
+            '</table>';
+    }
+
+    element.innerHTML = table;
 }
 
 function openTab(e) {

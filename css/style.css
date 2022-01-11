@@ -212,6 +212,7 @@ body {
 
 
 .table {
+    width: 100%;
     font-size: 1.2rem;
 }
 
@@ -235,6 +236,10 @@ body {
 
 .table__td--center {
     text-align: center;
+}
+
+.table__td--right {
+    text-align: right;
 }
 
 .form-btn {
